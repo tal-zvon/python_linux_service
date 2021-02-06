@@ -1,0 +1,45 @@
+################
+# Unit Section #
+################
+
+[Unit]
+
+Description=My Service
+
+# Send an email if the service ever fails
+OnFailure=status-email@%n.service
+
+###################
+# Service Section #
+###################
+
+[Service]
+
+# User to run the service as
+User=tal
+
+# Group to run the service as
+Group=tal
+
+# Type of service
+Type=simple
+
+# Main task
+ExecStart=/opt/my_service/venv3/bin/python3 /opt/my_service/service.py
+
+# Required to see Python output in logs
+Environment="PYTHONUNBUFFERED=x"
+
+# Uncomment this to see debug messages
+#Environment="DEBUG=true"
+
+# If the script ever dies, restart it
+Restart=always
+RestartSec=30
+
+###################
+# Install Section #
+###################
+
+[Install]
+WantedBy=multi-user.target
