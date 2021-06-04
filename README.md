@@ -2,8 +2,8 @@ This is a demo of a Linux service, written in Python.
 
 Install:
   Create the `/opt/my_service` directory
-  Copy service.py to `/opt/my_service`
-  Copy `my_service.service` to /etc/systemd/system/
+  Copy `service.py` to `/opt/my_service`
+  Copy `my_service.service` to `/etc/systemd/system/`
   Run `sudo systemctl start my_service` to start the service
   Run `sudo systemctl enable my_service` if you want it started at boot, every time
   
