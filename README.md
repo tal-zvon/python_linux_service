@@ -1,11 +1,11 @@
 This is a demo of a Linux service, written in Python.
 
 Install:
-  Create the `/opt/my_service` directory
-  Copy `service.py` to `/opt/my_service`
-  Copy `my_service.service` to `/etc/systemd/system/`
-  Run `sudo systemctl start my_service` to start the service
-  Run `sudo systemctl enable my_service` if you want it started at boot, every time
+  1. Create the `/opt/my_service` directory
+  2. Copy `service.py` to `/opt/my_service`
+  3. Copy `my_service.service` to `/etc/systemd/system/`
+  4. Run `sudo systemctl start my_service` to start the service
+  5. Run `sudo systemctl enable my_service` if you want it started at boot, every time
   
 You can now see if your service is running with: `sudo systemctl status my_service`, or see its logs with `sudo journalctl -u my_service`.
 
