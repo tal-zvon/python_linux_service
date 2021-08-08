@@ -7,7 +7,7 @@
 Description=My Service
 
 # Send an email if the service ever fails
-OnFailure=status-email@%n.service
+#OnFailure=status-email@%n.service
 
 ###################
 # Service Section #
@@ -16,10 +16,10 @@ OnFailure=status-email@%n.service
 [Service]
 
 # User to run the service as
-User=tal
+#User=tal
 
 # Group to run the service as
-Group=tal
+#Group=tal
 
 # Type of service
 Type=simple
