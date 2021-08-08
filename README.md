@@ -5,7 +5,7 @@ These are demos of various Linux services, written in Python.
 ### Install
 
   1. Create the `/opt/my_service` directory
-  2. Copy one of the .py service files (ex: `loop_service.py` to `/opt/my_service`)
+  2. Copy one of the .py service files from `services/` (ex: `loop_service.py`) to `/opt/my_service`
     - Rename it to `service.py`
   3. Create virtual environment and install requirements into it
     - `cd /opt/my_service`
