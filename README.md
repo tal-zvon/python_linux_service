@@ -6,9 +6,13 @@ These are demos of various Linux services, written in Python.
 
 1. Create the `/opt/my_service` directory
     - `sudo mkdir /opt/my_service`
+    - Note: You may need to change this directory's ownership and/or
+    permissions at this point, depending on who you want to be able to
+    view/edit these files. For the below steps to work, you'll either need
+    to run them as root, or to have modified permissions here
 
 2. Copy one of the .py service files from `services/` to `/opt/my_service`, and rename it to `service.py`
-    - `cp services/loop_service.py /opt/my_service/service.py`
+    - `cp -v services/loop_service.py /opt/my_service/service.py`
 
 3. Create virtual environment and install requirements into it
     - `cd /opt/my_service`
