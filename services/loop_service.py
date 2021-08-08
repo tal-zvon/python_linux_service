@@ -29,10 +29,6 @@ script_name = os.path.basename(__file__)
 # Get logger
 logger = logging.getLogger(script_name)
 
-# IP and Port for TCP Server to listen on
-IP='0.0.0.0'
-PORT=1234
-
 # How long to sleep, in seconds, when running in DEBUG mode
 DEBUG_SLEEP_TIME = 10
 
