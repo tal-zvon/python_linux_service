@@ -16,12 +16,24 @@ import traceback
 # Global Variables #
 ####################
 
-# Only set debug if we're running the script in a terminal, or the DEBUG
-# environment variable is set to "true" or "TRUE"
-if os.environ.get("DEBUG", "false").lower() == "true" or os.isatty(sys.stdin.fileno()):
-    DEBUG = True
+# If the DEBUG environment variable is set, uses that to set the DEBUG
+# global variable
+# If the environment variable isn't set, only sets DEBUG to True if we're
+# running in a terminal (as opposed to systemd running our script)
+if "DEBUG" in os.environ:
+    # Use Environment Variable
+    if os.environ["DEBUG"].lower() == "true":
+        DEBUG = True
+    elif os.environ["DEBUG"].lower() == "false":
+        DEBUG = False
+    else:
+        raise ValueError("DEBUG environment variable not set to 'true' or 'false'")
 else:
-    DEBUG = False
+    # Use run mode
+    if os.isatty(sys.stdin.fileno()):
+        DEBUG = True
+    else:
+        DEBUG = False
 
 # Script name
 script_name = os.path.basename(__file__)
