@@ -18,17 +18,19 @@ These are demos of various Linux services, written in Python.
     - `cp -v main_scripts/simple_main.py /opt/my_service/main.py`
 
 4. Create virtual environment and install requirements into it
-    - `cd /opt/my_service`
-    - `python3 -m venv venv3`
-    - `source venv3/bin/activate`
+    - `python3 -m venv /opt/my_service/venv3`
+    - `source /opt/my_service/venv3/bin/activate`
     - `pip install --upgrade pip`
     - `pip install -r requirements.txt`
 
 5. Copy `my_service.service` to `/etc/systemd/system/`
+    - `cp -v my_service.service /etc/sytemd/system/`
 
-6. Run `sudo systemctl start my_service` to start the service
+6. Start the service
+    - `sudo systemctl start my_service`
 
-7. Run `sudo systemctl enable my_service` if you want it started at boot, every time
+7. Enable the service at boot (so it starts when the system starts)
+    - `sudo systemctl enable my_service`
 
 You can now see if your service is running with: `sudo systemctl status my_service`, or see its logs with `sudo journalctl -u my_service`.
 
