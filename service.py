@@ -120,4 +120,4 @@ while True:
         main()
     except Exception:
         logger.error(format_exc_for_journald(traceback.format_exc(), indent_lines=False))
-        send_alert(traceback.format_exc())
+        send_alert(traceback.format_exc(), destination_addresses=ADMIN_EMAILS)
