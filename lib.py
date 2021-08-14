@@ -2,7 +2,7 @@ import logging
 
 logger = logging.getLogger(f"main.{__name__}")
 
-def send_alert(tback):
+def send_alert(tback, destination_addresses):
     """
         Generates the subject, body, and email destination for the email
         alert we are about to send
@@ -14,7 +14,7 @@ def send_alert(tback):
     body += tback
 
     # Send the actual email
-    send_mail(subject=subject, body=body, to=ADMIN_EMAILS)
+    send_mail(subject=subject, body=body, to=destination_addresses)
 
 def send_mail(subject, body, to):
     """

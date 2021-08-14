@@ -10,7 +10,9 @@ import logging
 import signal
 import socket
 import time
-from socketserver import TCPServer, BaseRequestHandler, ThreadingMixIn
+import traceback
+from main import main
+from lib import send_alert, format_exc_for_journald
 
 ####################
 # Global Variables #
@@ -39,11 +41,16 @@ else:
 script_name = os.path.basename(__file__)
 
 # Get logger
-logger = logging.getLogger(script_name)
+logger = logging.getLogger("main")
 
-# IP and Port for TCP Server to listen on
-IP='0.0.0.0'
-PORT=1234
+# How long to sleep, in seconds, when running in DEBUG mode
+DEBUG_SLEEP_TIME = 10
+
+# How long to sleep, in seconds, when running in non-DEBUG mode
+PRODUCTION_SLEEP_TIME = 60
+
+# List of email addresses to send emails to when something crashes
+ADMIN_EMAILS = ["user@gmail.com"]
 
 ################
 # Setup Logger #
@@ -85,43 +92,32 @@ except socket.error:
     logger.error(f"Another instance of {script_name} is already running")
     sys.exit(1)
 
-#####################
-# Set Up TCP Server #
-#####################
-
-class ThreadingTCPServer(ThreadingMixIn, TCPServer):
-    # Exit the threads when main thread dies
-    daemon_threads = True
-
-###################
-# Request Handler #
-###################
-
-class MyRequestHandler(BaseRequestHandler):
-    def handle(self):
-        # Write that someone connected
-        logger.info(f"Someone connected from {self.client_address[0]}:{self.client_address[1]}")
-
-        for _ in range(5):
-            time.sleep(1)
-
-            # Respond
-            message = "hello"
-            try:
-                self.request.send((message + "\n").encode('utf-8'))
-            except BrokenPipeError:
-                logger.warning(f"{self.client_address[0]}:{self.client_address[1]} disconnected early")
-                return
-
-        logger.info(f"{self.client_address[0]}:{self.client_address[1]} disconnected")
-
 ########
 # Main #
 ########
 
-# Start TCP Server
-# Note: using a context manager on TCPServer wasn't supported until
-# Python3.6. Before that, use server_close()
-with ThreadingTCPServer((IP, PORT), MyRequestHandler) as server:
-    logger.info(f"Listening on {IP}:{PORT}")
-    server.serve_forever()
+first_run = True
+while True:
+    ###########################
+    # Wait Between Iterations #
+    ###########################
+
+    # If this is the first run, don't wait at all
+    # If not, the wait time depends on if we're running in DEBUG mode or not
+    # In DEBUG mode, we're troubleshooting, and don't want to wait a long
+    # time between iterations
+
+    if first_run:
+        first_run = False
+    else:
+        if DEBUG:
+            logger.debug(f"Waiting {DEBUG_SLEEP_TIME} seconds...")
+            time.sleep(DEBUG_SLEEP_TIME)
+        else:
+            time.sleep(PRODUCTION_SLEEP_TIME)
+
+    try:
+        main()
+    except Exception:
+        logger.error(format_exc_for_journald(traceback.format_exc(), indent_lines=False))
+        send_alert(traceback.format_exc(), destination_addresses=ADMIN_EMAILS)
