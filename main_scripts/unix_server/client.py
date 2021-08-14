@@ -3,11 +3,16 @@
 # This is a quick unix socket client
 
 import socket
+import sys
 
 socket_path = "/tmp/my_service.sock"
 
 with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as client:
-    client.connect(socket_path)
+    try:
+        client.connect(socket_path)
+    except FileNotFoundError:
+        print(f"ERROR: Socket file doesn't exist at {socket_path}. Is the server running?")
+        sys.exit(1)
 
     while True:
         # Receive data from server
