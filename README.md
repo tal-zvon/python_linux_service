@@ -11,21 +11,24 @@ These are demos of various Linux services, written in Python.
     view/edit these files. For the below steps to work, you'll either need
     to run them as root, or to have modified permissions here
 
-2. Copy one of the .py service files from `services/` to `/opt/my_service`, and rename it to `service.py`
-    - `cp -v services/loop_service.py /opt/my_service/service.py`
+2. Copy `lib.py` and `service.py` to `/opt/my_service`
+    - `cp -v lib.py service.py /opt/my_service/service.py`
 
-3. Create virtual environment and install requirements into it
+3. Copy one of the `.py` main files from `main_scripts/` to `/opt/my_service/` and rename it to `main.py`
+    - `cp -v main_scripts/simple_main.py /opt/my_service/main.py`
+
+4. Create virtual environment and install requirements into it
     - `cd /opt/my_service`
     - `python3 -m venv venv3`
     - `source venv3/bin/activate`
     - `pip install --upgrade pip`
     - `pip install -r requirements.txt`
 
-4. Copy `my_service.service` to `/etc/systemd/system/`
+5. Copy `my_service.service` to `/etc/systemd/system/`
 
-5. Run `sudo systemctl start my_service` to start the service
+6. Run `sudo systemctl start my_service` to start the service
 
-6. Run `sudo systemctl enable my_service` if you want it started at boot, every time
+7. Run `sudo systemctl enable my_service` if you want it started at boot, every time
 
 You can now see if your service is running with: `sudo systemctl status my_service`, or see its logs with `sudo journalctl -u my_service`.
 
