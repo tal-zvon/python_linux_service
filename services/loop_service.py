@@ -11,6 +11,8 @@ import signal
 import socket
 import time
 import traceback
+from main import main
+from lib import send_alert, format_exc_for_journald
 
 ####################
 # Global Variables #
@@ -39,7 +41,7 @@ else:
 script_name = os.path.basename(__file__)
 
 # Get logger
-logger = logging.getLogger(script_name)
+logger = logging.getLogger("main")
 
 # How long to sleep, in seconds, when running in DEBUG mode
 DEBUG_SLEEP_TIME = 10
@@ -90,71 +92,6 @@ except socket.error:
     logger.error(f"Another instance of {script_name} is already running")
     sys.exit(1)
 
-#############
-# Functions #
-#############
-
-def my_code():
-    """
-        This is an example of code you want to run on every iteration
-        You can, and probably should move this to its own Python module
-
-        This sample code intentionally crashes once in a while to show what
-        happens when your code raises an exception
-    """
-
-    import random
-    if random.randint(1,3) == 3:
-        raise Exception("Something failed!")
-    else:
-        logger.info("Running check")
-
-def send_alert(tback):
-    """
-        Generates the subject, body, and email destination for the email
-        alert we are about to send
-    """
-
-    subject = "Service Exception Raised"
-
-    body = "Our service ran into an issue. This is the traceback:\n\n"
-    body += tback
-
-    # Send the actual email
-    send_mail(subject=subject, body=body, to=ADMIN_EMAILS)
-
-def send_mail(subject, body, to):
-    """
-        Send the email
-    """
-
-    # Note: We already printed the exception to the terminal, so this
-    # function does NOT need to print the exception again. It just needs to
-    # send it. This is just sample code. The real code would send the alert
-    # quietly (not print anything to terminal, except maybe a message that
-    # an alert was sent)
-
-    logger.warning("="*80)
-    logger.warning(f"Sending email to '{to}' with subject '{subject}' about an exception being raised with body:")
-    logger.warning(body)
-    logger.warning("="*80)
-
-def format_exc_for_journald(ex, indent_lines=False):
-    """
-        Journald removes leading whitespace from every line, making it very
-        hard to read python traceback messages. This tricks journald into
-        not removing leading whitespace by adding a dot at the beginning of
-        every line
-    """
-
-    result = ''
-    for line in ex.splitlines():
-        if indent_lines:
-            result += ".    " + line + "\n"
-        else:
-            result += "." + line + "\n"
-    return result.rstrip()
-
 ########
 # Main #
 ########
@@ -180,7 +117,7 @@ while True:
             time.sleep(PRODUCTION_SLEEP_TIME)
 
     try:
-        my_code()
+        main()
     except Exception:
         logger.error(format_exc_for_journald(traceback.format_exc(), indent_lines=False))
         send_alert(traceback.format_exc())
