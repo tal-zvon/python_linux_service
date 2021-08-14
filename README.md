@@ -2,6 +2,10 @@
 
 These are demos of various Linux services, written in Python.
 
+### Demo
+
+You can see me going over the different sections, and installing it here: https://youtu.be/hg-YWVz6J-Y
+
 ### Install
 
 1. Create the `/opt/my_service` directory
