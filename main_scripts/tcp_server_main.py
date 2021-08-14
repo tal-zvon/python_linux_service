@@ -17,6 +17,11 @@ class ThreadingTCPServer(ThreadingMixIn, TCPServer):
     # Exit the threads when main thread dies
     daemon_threads = True
 
+    # Allow server to run even if there are existing active sockets in
+    # TIME-WAIT state on this port. Fixes the "address already in use"
+    # error when starting server
+    allow_reuse_address = True
+
 ###################
 # Request Handler #
 ###################
