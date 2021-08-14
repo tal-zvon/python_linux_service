@@ -1,0 +1,6 @@
+You can use telnet as a client:
+
+    telnet 127.0.0.1 1234
+
+Change 127.0.0.1 to the IP of your tcp server if the client isn't running
+on the same machine as the server

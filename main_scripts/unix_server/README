@@ -1,0 +1,5 @@
+Unix sockets are much more efficient than tcp/udp servers, but they only
+work between 2 processes on the same computer!
+
+If you don't care about securing the socket file, you can also use abstract
+unix sockets.
