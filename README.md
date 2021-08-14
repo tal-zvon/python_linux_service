@@ -12,7 +12,7 @@ These are demos of various Linux services, written in Python.
     to run them as root, or to have modified permissions here
 
 2. Copy `lib.py` and `service.py` to `/opt/my_service`
-    - `cp -v lib.py service.py /opt/my_service/service.py`
+    - `cp -v lib.py service.py /opt/my_service/`
 
 3. Copy one of the `.py` main files from `main_scripts/` to `/opt/my_service/` and rename it to `main.py`
     - `cp -v main_scripts/simple_main.py /opt/my_service/main.py`
