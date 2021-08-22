@@ -40,10 +40,10 @@ You can now see if your service is running with: `sudo systemctl status my_servi
 
 ### Alternative Service
 
-service.py is designed to run main() at regular intervals. In addition to
-that, if you would like the ability to signal your service that it's time
-to run without waiting for the next time it's scheduled to run main(), have
-a look at `alternative_service.py`.
+`service.py` is designed to run `main()` at regular intervals. In addition
+to that, if you would like the ability to signal your service that it's
+time to run without waiting for the next time it's scheduled to run
+`main()`, have a look at `alternative_service.py`.
 
 ### Note
 
