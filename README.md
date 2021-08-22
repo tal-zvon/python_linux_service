@@ -38,6 +38,15 @@ You can see me going over the different sections, and installing it here: https:
 
 You can now see if your service is running with: `sudo systemctl status my_service`, or see its logs with `sudo journalctl -u my_service`.
 
+### Alternative Service
+
+service.py is designed to run main() at regular intervals. In addition to
+that, if you would like the ability to signal your service that it's time
+to run without waiting for the next time it's scheduled to run main(), have
+a look at `alternative_service.py`.
+
+### Note
+
 At the moment, the `requirements.txt` is not necessary. The project doesn't
 use any packages outside of the Python standard library. Eventually, I plan
 to show some more advanced features that will use packages from PyPI.
